@@ -10,7 +10,10 @@ class User:
         self.__password = password
         self._id = User.generate_id()
         User._users[self._id] = self
-       
+        self.__post_init__()
+
+    def __post_init__(self):
+        pass
 
    
     
