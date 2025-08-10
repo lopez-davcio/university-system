@@ -14,3 +14,14 @@ def print_password_requirements():
   - A small letter
   - A digit
   - At least 8 characters""")
+        
+
+
+def is_float(number):
+    """Return a float number or False if number passed as argument can't be converted"""
+    try:
+        float_number = float(number)
+    except:
+         return False
+    else:
+         return float_number
