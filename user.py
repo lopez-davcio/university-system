@@ -14,9 +14,8 @@ class User:
 
     def __post_init__(self):
         pass
-
-   
     
+
     def check_stored_password(self, attempted_password):
         """Checks if the attempted password matches the stored password"""
         return attempted_password == self.__password
@@ -53,6 +52,11 @@ class User:
     def id(self):
         return self._id
 
+
+    @property
+    def title(self):
+        return self._title
+    
 
     @classmethod
     def get_users_items(cls):

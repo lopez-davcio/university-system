@@ -9,7 +9,7 @@ class Professor(User):
 
 
    
-    def professor_menu(self):
+    def menu(self):
         """It controls the flow of the professor menu"""
         while True:
             self.print_professor_menu()
@@ -21,6 +21,9 @@ class Professor(User):
                     self._past_courses
                 case "3":
                     self.assign_grade()
+                case "4":
+                    print("You have been logged off.")
+                    return
 
 
 

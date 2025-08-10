@@ -18,8 +18,15 @@ class Grades:
         
 
     def show_courses_and_grades(self):
-        for key, value in self._grades:
-            print(f"Course code: {key}, grade: {value}")
+        if self._grades:
+            for key, value in self._grades:
+                print(f"Course code: {key}, grade: {value}")
+        else:
+            print("There are no grades to display yet.")
+
+
+    def show_gpa(self):
+        print(f"Your current GPA is: {self._gpa}.")
 
 
     

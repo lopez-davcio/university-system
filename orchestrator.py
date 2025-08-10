@@ -13,20 +13,17 @@ class UniversitySystem:
     
     def run(self):
         """Controls the flow of the program"""
-        while True:
-            if self.active_user == None:
-                self.active_user = self.user_access()
-                print(f'From run(), just created self.active_user is {self.active_user}')
-            else:
-                print(f'From run(), previously self.active_user was {self.active_user}')                
-                break
-            
+        self.active_user = self.user_access()
+        self.active_user.run()
+          
+
 
     def user_access(self):
         """Prompts user to enter ID, choose create account or exit.
         According to user input:
         - Calls self.create_new_account() and returns user instance or,
-        - Calls self.access_existing_account() and returns a user instance."""
+        - Calls self.access_existing_account() and returns a user instance.
+        """
         while True:
             choice = input("\nPlease enter your ID number, or type 'n' to create a new account, or 'e' to exit: ").lower()          
             if choice == 'e':
@@ -50,11 +47,11 @@ class UniversitySystem:
         Informs user that a profile has been created and ID number."""
             
         while True:
-            user_type = input("\nPlease type 'p' for professor, 's' for student, or 'q' to quit: ").lower() 
+            user_type = input("\nPlease type 'p' for professor, 's' for student, 'a' for admin, or 'q' to quit: ").lower() 
 
             if user_type == 'q':
                 self.restart_flow()
-            if user_type not in ('p', 's'):
+            if user_type not in ('p', 's', 'a'):
                 continue
             name = self.input_name()
             password = self.create_new_password()
@@ -67,13 +64,16 @@ class UniversitySystem:
             elif user_type == 's':
                 print("i need to create student")
 
+            elif user_type == 'a':
+                print("i need to create admin")
+
 
     def access_existing_account(self, choice):
         """Accepts as parameter the id (str) entered by user and checks it against users dict.
-        If id is not valid, it goes back to self.run().
+        If id is not valid, it restarts the flow.
         If valid id, calls user login().
         Returns user instance if login successful.
-        Goes back to self.run if login unsuccessful"""
+        It restarts the flow if login unsuccessful"""
         users = User.get_users_items()
         if choice in users:
             active_user = users[choice]
