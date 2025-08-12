@@ -57,12 +57,14 @@ class Enrolment:
 
 
     def add_course_to_student(self):
+        """Appends the course code to the list of student's current courses"""
         course = self._course.code
         self.add_course_to_current_courses(course)
 
 
 
     def registration_management(self):
+        """It enrols the student if they meet the requirements. Deducts credits, updates student and course records, and prints a confirmation.Raises error if enrolment requirements are not met"""
         if self.student_fulfills_requirements:
             self.take_credits_from_student()
             self.add_student_to_course()

@@ -1,8 +1,10 @@
 import pdb
 from user import User
 from professor import Professor
+from student import Student
+from course import Course
 import utils
-
+import data
 
 
 class UniversitySystem:
@@ -13,8 +15,10 @@ class UniversitySystem:
     
     def run(self):
         """Controls the flow of the program"""
+        data.create_mock_objects()
+        Course.show_all_courses()
         self.active_user = self.user_access()
-        self.active_user.run()
+        self.active_user.menu()
           
 
 
@@ -62,7 +66,9 @@ class UniversitySystem:
                 return new_profile
             
             elif user_type == 's':
-                print("i need to create student")
+                new_profile = Student(name, 'student', password)
+                print(f"\nYour profile has been created, your ID is: {new_profile.id}")
+                return new_profile
 
             elif user_type == 'a':
                 print("i need to create admin")

@@ -29,12 +29,12 @@ class Professor(User):
 
     def print_professor_menu(self):
         print("""
-        --- Professor Menu ---
-        Press 1 - View your assigned courses.
-        Press 2 - View past courses.
-        Press 3 - Input or update student grades.
-        Press 4 - Log off.
-        """)
+    --- Professor Menu ---
+    Press 1 - View your assigned courses.
+    Press 2 - View past courses.
+    Press 3 - Input or update student grades.
+    Press 4 - Log off.
+    """)
 
 
 

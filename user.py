@@ -10,9 +10,12 @@ class User:
         self.__password = password
         self._id = User.generate_id()
         User._users[self._id] = self
-        self.__post_init__()
+        self._post_init__()
 
-    def __post_init__(self):
+    def __repr__(self):
+        return f"Name: {self._name}, title: {self._title}, ID: {self._id}."
+    
+    def _post_init__(self):
         pass
     
 
