@@ -2,19 +2,28 @@ from user import User
 from grades import Grades
 from course import Course
 from enrolment import Enrolment
+import pdb
 class Student(User):
 
-    def __init__(self, name, title, password):
+    def __init__(self, name, title, password, current_courses:list=[], completed_courses:list=[]):
         super().__init__(name, title, password)
-        self._current_courses = [] #list of str
-        self._completed_courses = [] #list of str
+        self._current_courses = current_courses
+        self._completed_courses = completed_courses
         self._credits_available = 120
+        # pdb.set_trace()
         self._grades = None        
+        self._post_init__()
+
 
 
     def _post_init__(self):
         """Creates a Grades object automatically every time a Student object is instantiated. It's called on User __init__ method."""
         self._grades = Grades(self.id)
+
+
+
+    def __repr__(self):
+        return f"Name: {self._name}, title: {self._title}, ID: {self._id}, grades: {self._grades}."
 
 
 
@@ -25,13 +34,15 @@ class Student(User):
             choice = input()
             match choice:
                 case "1":
-                    self._current_courses 
+                    print("\nDisplaying current courses:")
+                    self.display_current_courses()
                 case "2":
-                    self._completed_courses
+                    print("\nDisplaying completed courses:")
+                    self.display_completed_courses()
                 case "3":
                     self.enrol_in_course()
                 case "4":
-                    pass
+                    print("Deregister from course")
                 case "5":
                     self._grades.show_courses_and_grades()
                 case "6":
@@ -46,11 +57,7 @@ class Student(User):
         """Display enrolment menu and prompt user to enter course code to enrol into, or display courses, or quit. 
         Creates enrolment object if the course is recognised, otherwise restart the loop and inform the user."""
         while True:
-            print("""--- Enrolment Menu ---
-            Type the code of the course you want to enroll in
-            or type "v" to view available courses
-            or type "c" to cancel
-            """) 
+            Student.print_enrolment_menu()
             choice = input()
             if choice == "c" or choice == "C":
                 print("The enrolment has been cancelled.")
@@ -58,8 +65,10 @@ class Student(User):
             elif choice == "v" or choice == "V":
                 Course.show_all_courses()
             else:
-                if Course.get_course_instance(choice):
-                    Enrolment(choice, self)
+                course = Course.get_course_instance(choice)
+                if course:
+                    Enrolment(course, self)
+                    return
                 else:
                     print("Your choice is not recognised.")
 
@@ -81,6 +90,7 @@ class Student(User):
             return False
 
 
+
     def add_course_to_current_courses(self, course_code):
         """Appends a new course code to the list of current courses"""
         self._current_courses.append(course_code)
@@ -88,8 +98,22 @@ class Student(User):
 
 
     @property
+    def current_courses(self):
+        return self._current_courses
+
+
+
+    @property
     def completed_courses(self):
-        return self.completed_courses
+        return self._completed_courses
+
+
+
+    @property
+    def grades(self):
+        return self._grades
+
+
 
     @staticmethod
     def print_student_menu():
@@ -103,5 +127,15 @@ class Student(User):
         Press 6 - Check your GPA
         Press 7 - Log off
         """)
+
+
+    @staticmethod
+    def print_enrolment_menu():
+        print("""
+        --- Enrolment Menu ---
+        Type the code of the course you want to enroll in
+        or type "v" to view available courses
+        or type "c" to cancel
+        """) 
 
     

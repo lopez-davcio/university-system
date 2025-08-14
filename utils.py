@@ -20,11 +20,20 @@ def print_password_requirements():
 def is_float(number):
     """Return a float number or False if number passed as argument can't be converted"""
     try:
-        float_number = float(number)
+        float_number = round(float(number), 2)
     except:
          return False
     else:
          return float_number
     
 
+
+def is_integer(number):
+    """Return an integer number or False if number passed as argument can't be converted"""
+    try:
+        int_number = round(int(number), 2)
+    except:
+         return False
+    else:
+         return int_number
 

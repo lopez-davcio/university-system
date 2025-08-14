@@ -6,16 +6,15 @@ class Grades:
         self._grades = {}
         self._gpa = gpa
         
-        
-    def recalculate_gpa(self):
-        """Recalculate the GPA by averaging all grades in _grades, and update the _gpa attribute."""
-        grade_sum = 0
-        grade_count = len(self._grades)
-        for key, value in self._grades:
-            grade_sum += value
-        new_gpa = grade_sum / grade_count
-        self._gpa = new_gpa
-        
+
+
+    def update_grade(self, course, grade):
+        """Add the course code as key and grade as value in grades dict.
+        Recalculate gpa considering new grade through gpa()"""
+        self._grades[course] = grade
+        self._recalculate_gpa()
+
+
 
     def show_courses_and_grades(self):
         if self._grades:
@@ -25,8 +24,23 @@ class Grades:
             print("There are no grades to display yet.")
 
 
+
     def show_gpa(self):
         print(f"Your current GPA is: {self._gpa}.")
 
 
+
+    @property
+    def gpa(self):
+        return self._gpa
     
+    
+    
+    def _recalculate_gpa(self):
+        grades = self._grades.values()
+        count = len(grades)
+        addition = sum(grades)
+        self._gpa = addition / count
+        print(f"New GPA is {self._gpa}.")
+
+

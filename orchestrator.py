@@ -1,4 +1,4 @@
-import pdb
+from admin import Admin
 from user import User
 from professor import Professor
 from student import Student
@@ -16,7 +16,7 @@ class UniversitySystem:
     def run(self):
         """Controls the flow of the program"""
         data.create_mock_objects()
-        Course.show_all_courses()
+       
         self.active_user = self.user_access()
         self.active_user.menu()
           
@@ -71,7 +71,9 @@ class UniversitySystem:
                 return new_profile
 
             elif user_type == 'a':
-                print("i need to create admin")
+                new_profile = Admin(name, 'student', password)
+                print(f"\nYour profile has been created, your ID is: {new_profile.id}")
+                return new_profile
 
 
     def access_existing_account(self, choice):

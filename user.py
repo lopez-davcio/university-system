@@ -1,8 +1,9 @@
 import pdb
-
+from course import Course
 class User:
 
     _users = {}
+    _users_archive = {}
     
     def __init__(self, name, title, password):
         self._name = name
@@ -10,19 +11,18 @@ class User:
         self.__password = password
         self._id = User.generate_id()
         User._users[self._id] = self
-        self._post_init__()
+        
 
     def __repr__(self):
         return f"Name: {self._name}, title: {self._title}, ID: {self._id}."
     
-    def _post_init__(self):
-        pass
-    
+  
 
     def check_stored_password(self, attempted_password):
         """Checks if the attempted password matches the stored password"""
         return attempted_password == self.__password
     
+
 
     def login(self):
         """prompts the user to enter their password and validates it through check_stored_password(). It gives 3 attempts.
@@ -51,9 +51,36 @@ class User:
                     return False
                 
 
+
+    def display_current_courses(self):
+        for course in self._current_courses:
+            print(Course.get_course_instance(course))
+
+
+
+    def display_completed_courses(self):
+        for course in self._completed_courses:
+            print(Course.get_course_instance(course))
+
+
+
+    def remove_user(self):
+        """Pops user entry from registry (cls_users) if user exists in that dict, and copy it in users_archive.
+        Informs the user whether the action has been completed or not."""
+        id = self.id
+        user_obj = User._users.pop(id, False)
+        if user_obj:
+            User._add_user_to_archive(id, user_obj)
+            print(f"User {id} has been removed.")
+        else:
+            print("That user is not recognised.")
+
+
+
     @property
     def id(self):
         return self._id
+
 
 
     @property
@@ -61,14 +88,11 @@ class User:
         return self._title
     
 
+
     @classmethod
     def get_users_items(cls):
         return cls._users
 
-    @classmethod
-    def set_user(cls, user):
-        """not sure yet if i need it"""
-        pass
 
 
     @classmethod
@@ -76,6 +100,7 @@ class User:
         """returns True if user ID is available, False if it's not available"""
         return id not in cls._users
     
+
 
     @classmethod    
     def generate_id(cls):
@@ -87,3 +112,22 @@ class User:
                 break                            
         return id     
 
+
+
+    @classmethod
+    def get_user_instance(cls, id):
+        """Accept a user id and return the user object if it's found in registry, return False otherwise"""
+        
+        user_obj =  cls._users.get(id, False)
+        if user_obj:
+            return user_obj
+        else:
+            return False
+        
+
+    
+    @classmethod
+    def _add_user_to_archive(cls, id, user_obj):
+        """Add user id as value and user object as key to user_archive"""
+        cls._users_archive[id] = user_obj
+        print(f"users_archive: {cls._users_archive}")

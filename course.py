@@ -1,3 +1,4 @@
+import pdb
 class Course:
 
     _all_courses = {}
@@ -14,23 +15,22 @@ class Course:
 
 
     def __str__(self):
-        print(f"\nName: {self._name}.\nCode: {self._code}.\nAssigned professor: {self._professor}.")
+        return f"\nName: {self._name}.\nCode: {self._code}.\nAssigned professor: {self._professor}."
 
 
     
     def course_accepts_students(self):
         """return True if course is not full and new students are accepted.
         Return False if it is full, so no new students are accepted"""
-        return self._students_enrolled < self._capacity
+        return len(self._students_enrolled) < self._capacity
 
 
-    def add_student_id_to_course(self, id):
+    def add_student_to_students_enrolled(self, id):
         self._students_enrolled.append(id)
 
 
     @property
     def required_completed_courses(self):
-        """return the list of required courses required"""
         return self._required_completed_courses
 
 
@@ -54,7 +54,8 @@ class Course:
     @classmethod
     def get_course_instance(cls, code):
         """Accept a course code and return the course object if it's found in registry, return False otherwise"""
-        course_obj =  cls._all_courses.items().get(code, False)
+        
+        course_obj =  cls._all_courses.get(code, False)
         if course_obj:
             return course_obj
         else:

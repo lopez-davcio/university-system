@@ -1,53 +1,53 @@
 from user import User
+from course import Course
+from grades import Grades
 import utils
+import pdb
+
+
 class Professor(User):
 
-    def __init__(self, name, title, password):
+    def __init__(self, name, title, password, current_courses=[], completed_courses=[]):
         super().__init__(name, title, password)
-        self._current_courses = {}
-        self._past_courses = {}
+        self._current_courses = current_courses
+        self._completed_courses = completed_courses
 
 
    
     def menu(self):
         """It controls the flow of the professor menu"""
         while True:
-            self.print_professor_menu()
+            Professor._print_professor_menu()
             choice = input()
             match choice:
                 case "1":
-                    self._current_courses 
+                    print("\nDisplaying current courses:")
+                    self.display_current_courses()
                 case "2":
-                    self._past_courses
+                    print("\nDisplaying completed courses:")
+                    self.display_completed_courses()
                 case "3":
-                    self.assign_grade()
+                    self._assign_grade()
                 case "4":
                     print("You have been logged off.")
                     return
 
 
 
-    def print_professor_menu(self):
-        print("""
-    --- Professor Menu ---
-    Press 1 - View your assigned courses.
-    Press 2 - View past courses.
-    Press 3 - Input or update student grades.
-    Press 4 - Log off.
-    """)
+
+    def _assign_grade(self):
+        """Obtain course ID through input_course_to_grade(),
+        obtain student object through input_student_to_grade(),
+        obtain grade through input_grade().
+        Updates grade with the help of update_grade()"""
+        course = self._input_course_to_grade()
+        student = self._input_student_to_grade(course)
+        grade = self._input_grade() 
+        student.grades.update_grade(course, grade)
 
 
 
-    def assign_grade(self):
-        """ADD DESCRIPTION"""
-        course = self.input_course_to_grade()
-        student = self.input_student_to_grade(course)
-        grade = self.input_grade() 
-        #instantiate a grades object
-
-
-
-    def input_course_to_grade(self):    
+    def _input_course_to_grade(self):    
         """Prompts user to input course, validates that the course is in professors current courses through validate_course(). Returns the course object. Lets the user quit and restarts flow"""
 
         while True:
@@ -57,61 +57,76 @@ class Professor(User):
                 print('Grade assign cancelled.')
                 self.professor_menu()
             
-            elif self.validate_course(course):
-                return self._current_courses[course]
+            elif self._validate_course(course):
+                return course
             else:
                 print("That course is not listed as your assigned course.")
 
 
 
-    def validate_course(self, course):
+
+    def _validate_course(self, course):
         """Checks if the course is in professor's current courses.
         Returns True/False"""
         return course in self._current_courses
     
         
 
-    def input_student_to_grade(self, course):    
-        """Prompt user to input student, validate the student is in course's list of current students. Returns the student object. Let the user quit and restarts flow"""
+    def _input_student_to_grade(self, course):    
+        """Prompt user to input student, validate the course is in the student's current_courses list. 
+        Return the student object or let the user quit and restart flow"""
 
         while True:
             student_id = input('\nPlease enter the ID of the student, or type "c" to cancel: ').lower()
-
+            student_obj = self.get_user_instance(student_id)
             if student_id == 'c':
                 print('Grade assign cancelled.')
                 self.professor_menu()
             
-            elif self.validate_student(course, student_id):
-                student_object = User.get_users_items()[student_id]
-                return student_object
+            elif student_obj:
+                valid_student = self._validate_student(student_obj, course)
+                if valid_student:
+                    return student_obj
+                else:
+                    print("The student is not registered for that course")
             else:
-                print("That student is not registered for that course.")
+                print("That student is not recognised.")
+                
 
 
 
-    def validate_student(self, course, student_id):
-        """Check if the student is in the course's dict of current students.
-        Return True/False"""
-        course = None #get course list of current students
+    def _validate_student(self, student_obj, course):
+        """Return True if the course is in student's current courses.
+        Returns False otherwise"""
+        courses = student_obj.current_courses
+        return course in courses
         
-        return True #return True for now, later return student in list of current students
+        
 
 
-
-    def input_grade(self):
+    def _input_grade(self):
         """Prompt the user to enter the grade and convert it to float.
         Check if grade is 0 to 10 and with the help of utils.is_float() catch the error and inform the user if it's an invalid input,in that case start the loop again.
         Prompt to confirm the entered grade is correct.
         Return the grade as a float"""
 
         while True:
-            grade = input("Please enter the grade: ")
+            grade = input("\nPlease enter the grade: ")
             float_grade = utils.is_float(grade)
             if float_grade:
                 if float_grade >= 0 and float_grade <= 10:
                     return float_grade
             else:
-                print("Invalid input. Enter a number between 0 and 10, with no more than two decimal places.")
+                print("Invalid input. Only digits between 0 and 10 with up to two decimal places are accepted.")
 
 
 
+    @staticmethod
+    def _print_professor_menu():
+        print("""
+    --- Professor Menu ---
+    Press 1 - View your assigned courses.
+    Press 2 - View past courses.
+    Press 3 - Input or update student grades.
+    Press 4 - Log off.
+    """)
