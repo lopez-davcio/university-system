@@ -2,6 +2,8 @@ import pdb
 class Course:
 
     _all_courses = {}
+    _courses_archive = {}
+
 
     def __init__(self, name, code:str, credits: int, professor:str, capacity:int, required_completed_courses: list):
         self._name = name
@@ -27,6 +29,7 @@ class Course:
 
     def add_student_to_students_enrolled(self, id):
         self._students_enrolled.append(id)
+
 
 
     @property
@@ -60,3 +63,19 @@ class Course:
             return course_obj
         else:
             return False
+            
+   
+
+    @classmethod
+    def archive_course(cls, course_code):
+        """Remove course from all_courses dict and add it to courses_archive dict.
+        Return True if course was is in all_courses, false otherwise."""
+        course_instance = cls._all_courses.pop(course_code, False)
+        if course_instance:
+            cls._courses_archive[course_code] = course_instance
+            return True
+
+        else:
+            return False
+            
+

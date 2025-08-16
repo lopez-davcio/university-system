@@ -14,7 +14,7 @@ class Admin(User):
         from orchestrator import UniversitySystem
         
         while True:            
-            self.print_admin_menu()
+            self._print_admin_menu()
             choice = input()
             match choice:
                 case "1":
@@ -22,9 +22,9 @@ class Admin(User):
                     if user_obj:
                         user_obj.remove_user()
                 case "2":
-                    self.add_new_course()
+                    self._add_new_course()
                 case "3":
-                    pass
+                    self._remove_course()
                 case "4":
                     print("You have been logged off.")
                     return
@@ -33,7 +33,7 @@ class Admin(User):
 
     
     def _input_user_to_remove(self):    
-        """Prompt user to input user and removes it from registry through remove_user(). Let the user quit and restart flow"""
+        """Prompt admin to input user and removes it from registry through remove_user(). Let the user quit and restart flow"""
 
         while True:
             user_id = input('\nPlease enter the ID of the user, or type "c" to cancel: ').lower()
@@ -49,31 +49,31 @@ class Admin(User):
 
 
 
-    def add_new_course(self):
-        """With the help of input_course_information(), prompt user to enter the information needed to create a course and then initialize a course object.
+    def _add_new_course(self):
+        """Prompt admin to enter the information needed to create a course with the help of other functions, then initialize a course object.
         Let the user quit return to admin menu"""
 
-        name = self.input_course_information("name")
-        code = self.input_course_code()
-        credits = self.input_course_digits("credits")
-        professor = self.input_course_information("professor")
-        capacity = self.input_course_digits("capacity")
-        required_completed_courses = self.input_course_required_completed_courses()
+        name = self._input_course_information("name")
+        code = self._input_course_code()
+        credits = self._input_course_digits("credits")
+        professor = self._input_course_information("professor")
+        capacity = self._input_course_digits("capacity")
+        required_completed_courses = self._input_course_required_completed_courses()
 
         new_course = Course(name, code, credits, professor, capacity, required_completed_courses)
         print(f"\nA new course has been created:\n{new_course}")
         
 
     
-    def input_course_information(self, info):
-        """Prompt the user to enter the info required, the info required is passed on the function as a string.
+    def _input_course_information(self, info):
+        """Prompt the admin to enter the info required, the info required is passed on the function as a string.
         Keep user in loop and doublecheck if info is correct and return user input.
         Let the user quit."""
 
         while True:
             user_input = input(f"\nPlease enter the course {info} or 'q' to quit: ")
             if user_input.lower() == 'q':
-                print("The course creation has been cancelled.")
+                print("The course {info} input has been cancelled.")
                 self.menu()             
             else:
                 confirm = input(f"Is {user_input} the correct {info}? (y/n): ")
@@ -82,13 +82,16 @@ class Admin(User):
             
 
 
-    def input_course_code(self):
-        """Prompt the user to enter the course code and validates the pattern. Keep user in loop and doublecheck if code is correct and return it as a str.
+    def _input_course_code(self):
+        """Prompt the admin to enter the course code and validates the pattern. Keep user in loop and doublecheck if code is correct and return it as a str.
         Let the user quit."""
 
         while True:
             course_code = input(f"\nPlease enter the course code or 'q' to quit: ")
-            valid = Admin.validate_course_code_pattern(course_code)        
+            if course_code.lower() == 'q':
+                print("The course code input has been cancelled.")
+                self.menu()  
+            valid = Admin._validate_course_code_pattern(course_code)        
             if valid:
                 confirm = input(f"Is {course_code} the correct code? (y/n):")
                 if confirm.lower() == "y":
@@ -98,8 +101,8 @@ class Admin(User):
 
 
 
-    def input_course_digits(self, info):        
-        """Prompt the user to enter the info required, the info required is passed on the function as a string.
+    def _input_course_digits(self, info):        
+        """Prompt the admin to enter the info required, the info required is passed on the function as a string.
         Keep user in loop and doublecheck that the input is an integer.
         Return user input, let the user quit."""
 
@@ -115,7 +118,10 @@ class Admin(User):
 
 
 
-    def input_course_required_completed_courses(self):
+    def _input_course_required_completed_courses(self):
+        """Prompt the admin to enter the info required, the info required is passed on the function as a string.
+        Keep user in loop and doublecheck that the input is an integer.
+        Return user input, let the user quit."""
         course_list = []
         while True:
             course_code = input("\nPlease enter the code of the required course, or type 'n' if none, or type 'q' to cancel: ")
@@ -124,7 +130,7 @@ class Admin(User):
                 self.menu()
             if course_code.lower() == 'n': 
                 return course_list
-            valid = Admin.validate_course_code_pattern(course_code)            
+            valid = Admin._validate_course_code_pattern(course_code)            
             if valid:
                 confirm = input(f"Is {course_code} the correct code? (y/n):")
                 if confirm.lower() == "y":
@@ -143,8 +149,23 @@ class Admin(User):
 
 
 
+
+    def _remove_course(self):
+        """Prompt admin to input course code with the help of a function.
+        Remove course from courses dictionary and add it to archive through another function.
+        Inform user whether it's been successful or not."""
+
+        course_code = self._input_course_code()
+        if Course.archive_course(course_code):
+            print(f"The course with code {course_code} has been successfully removed from active courses and added to the courses archive.")
+        else:
+            print(f"Course {course_code} is not an active course, please try again.")    
+        
+
+
+
     @staticmethod
-    def validate_course_code_pattern(course_code):
+    def _validate_course_code_pattern(course_code):
         """Check the code passed as argument against the code pattern required in courses"""
         match = re.fullmatch(r"[a-z]{2}\d{3}", course_code, re.I)
         return match
@@ -152,7 +173,7 @@ class Admin(User):
 
 
     @staticmethod
-    def print_admin_menu():
+    def _print_admin_menu():
         print("""
         --- Admin Menu ---
         Press 1 - Remove an account 
