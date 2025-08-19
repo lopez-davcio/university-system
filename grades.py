@@ -1,4 +1,4 @@
-
+import pdb
 class Grades:
 
     def __init__(self, student_id, gpa=None):
@@ -18,7 +18,7 @@ class Grades:
 
     def show_courses_and_grades(self):
         if self._grades:
-            for key, value in self._grades:
+            for key, value in self._grades.items():
                 print(f"Course code: {key}, grade: {value}")
         else:
             print("There are no grades to display yet.")

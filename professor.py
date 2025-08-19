@@ -116,6 +116,8 @@ class Professor(User):
             if float_grade:
                 if float_grade >= 0 and float_grade <= 10:
                     return float_grade
+                else:
+                    print("Invalid input. Only digits between 0 and 10 with up to two decimal places are accepted.")
             else:
                 print("Invalid input. Only digits between 0 and 10 with up to two decimal places are accepted.")
 

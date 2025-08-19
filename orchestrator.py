@@ -16,9 +16,9 @@ class UniversitySystem:
     def run(self):
         """Controls the flow of the program"""
         data.create_mock_objects()
-       
-        self.active_user = self.user_access()
-        self.active_user.menu()
+        while True:
+            self.active_user = self.user_access()
+            self.active_user.menu()
           
 
 

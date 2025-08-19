@@ -21,10 +21,9 @@ def is_float(number):
     """Return a float number or False if number passed as argument can't be converted"""
     try:
         float_number = round(float(number), 2)
+        return float_number
     except:
-         return False
-    else:
-         return float_number
+         return False         
     
 
 

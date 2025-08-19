@@ -28,10 +28,10 @@ def create_mock_objects():
     Professor('Elizabeth', 'professor', 'Ez963741')
 
     Course('Data science', 'ds123', 30, 'Robert', 15, ['mt223'])
-    Course('Algorithms', 'al101', 25, 'Linda', 20, ['ma594'])
+    Course('Algorithms', 'al101', 25, 'Linda', 20, ['ds123'])
     Course('Operating Systems', 'os202', 30, 'Michael', 25, ['al101'])
     Course('Databases', 'db303', 20, 'Sarah', 15, ['al101'])
-    Course('Computer Networks', 'cn404', 25, 'Thomas', 20, ['os202'])
+    Course('Computer Networks', 'cn404', 25, 'Thomas', 20, ['ds123'])
     Course('Artificial Intelligence', 'ai505', 30, 'Patricia', 20, ['al101', 'mt223'])
     Course('Software Engineering', 'se606', 25, 'James', 30, ['al101'])
     Course('Cybersecurity', 'cs707', 20, 'Barbara', 15, ['os202'])
