@@ -91,7 +91,7 @@ class Admin(User):
             if course_code.lower() == 'q':
                 print("The course code input has been cancelled.")
                 self.menu()  
-            valid = Admin._validate_course_code_pattern(course_code)        
+            valid = utils.validate_course_code_pattern(course_code)        
             if valid:
                 confirm = input(f"Is {course_code} the correct code? (y/n):")
                 if confirm.lower() == "y":
@@ -130,7 +130,7 @@ class Admin(User):
                 self.menu()
             if course_code.lower() == 'n': 
                 return course_list
-            valid = Admin._validate_course_code_pattern(course_code)            
+            valid = utils.validate_course_code_pattern(course_code)            
             if valid:
                 confirm = input(f"Is {course_code} the correct code? (y/n):")
                 if confirm.lower() == "y":
@@ -161,15 +161,6 @@ class Admin(User):
         else:
             print(f"Course {course_code} is not an active course, please try again.")    
         
-
-
-
-    @staticmethod
-    def _validate_course_code_pattern(course_code):
-        """Check the code passed as argument against the code pattern required in courses"""
-        match = re.fullmatch(r"[a-z]{2}\d{3}", course_code, re.I)
-        return match
-
 
 
     @staticmethod

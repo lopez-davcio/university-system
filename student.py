@@ -42,7 +42,7 @@ class Student(User):
                 case "3":
                     self.enrol_in_course()
                 case "4":
-                    print("Deregister from course")
+                    self.deregister_from_course()
                 case "5":
                     self._grades.show_courses_and_grades()
                 case "6":
@@ -72,6 +72,11 @@ class Student(User):
                 else:
                     print("Your choice is not recognised.")
 
+
+
+    def deregister_from_course(self):
+        pass
+        
 
 
     def has_enough_credits(self, credits):

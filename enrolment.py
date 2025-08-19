@@ -96,5 +96,4 @@ class Enrolment:
         return self._course.code not in self._student.current_courses
 
 
-    def deregister_from_course(student:object, course: object):
-        pass
+    

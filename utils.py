@@ -36,3 +36,9 @@ def is_integer(number):
     else:
          return int_number
 
+
+
+def validate_course_code_pattern(course_code):
+        """Check the code passed as argument against the code pattern required in courses"""
+        match = re.fullmatch(r"[a-z]{2}\d{3}", course_code, re.I)
+        return match
