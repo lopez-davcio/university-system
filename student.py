@@ -2,6 +2,7 @@ from user import User
 from grades import Grades
 from course import Course
 from enrolment import Enrolment
+import utils
 import pdb
 class Student(User):
 
@@ -42,7 +43,7 @@ class Student(User):
                 case "3":
                     self.enrol_in_course()
                 case "4":
-                    self.deregister_from_course()
+                    self._deregister_from_course()
                 case "5":
                     self._grades.show_courses_and_grades()
                 case "6":
@@ -74,8 +75,13 @@ class Student(User):
 
 
 
-    def deregister_from_course(self):
-        pass
+    def _deregister_from_course(self):
+        course_code = self._input_course_code()
+        if course_code in self.current_courses:
+            self.current_courses.remove(course_code) 
+            print(f'You have been deregistered from course {course_code}.')            
+        else:
+            print(f'\nAccording to our database you are not registered for course {course_code}.')
         
 
 
@@ -99,6 +105,25 @@ class Student(User):
     def add_course_to_current_courses(self, course_code):
         """Appends a new course code to the list of current courses"""
         self._current_courses.append(course_code)
+
+
+
+    def _input_course_code(self):
+        """Prompt the student to enter the course code and validates the pattern. Keep user in loop and doublecheck if code is correct and return it as a str.
+        Let the user quit."""
+
+        while True:
+            course_code = input(f"\nPlease enter the course code or 'q' to quit: ")
+            if course_code.lower() == 'q':
+                print("The course code input has been cancelled.")
+                self.menu()  
+            valid = utils.validate_course_code_pattern(course_code)        
+            if valid:
+                confirm = input(f"Is {course_code} the correct code? (y/n):")
+                if confirm.lower() == "y":
+                    return course_code
+            else:
+                print("The code must be made of two letters followed by three digits.")
 
 
 
