@@ -53,14 +53,20 @@ class User:
 
 
     def display_current_courses(self):
-        for course in self._current_courses:
-            print(Course.get_course_instance(course))
+        if self._current_courses:
+            for course in self._current_courses:
+                print(Course.get_course_instance(course))
+        else:
+            print("\nThere are no courses to display.")
 
 
 
     def display_completed_courses(self):
-        for course in self._completed_courses:
-            print(Course.get_course_instance(course))
+        if self._completed_courses:
+            for course in self._completed_courses:
+                print(Course.get_course_instance(course))
+        else:
+            print("\nThere are no courses to display.")
 
 
 
