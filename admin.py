@@ -1,7 +1,6 @@
 from user import User
 from course import Course
 import utils
-import re
 
 class Admin(User):
     def __init__(self, name, title, password):

@@ -76,6 +76,8 @@ class Student(User):
 
 
     def _deregister_from_course(self):
+        """Prompts the user to enter course code through a helper function.
+        If it is one of the user course it removes it from current courses and inform user. Otherwise inform user not registered for that course"""
         course_code = self._input_course_code()
         if course_code in self.current_courses:
             self.current_courses.remove(course_code) 

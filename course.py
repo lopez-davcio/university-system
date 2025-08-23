@@ -1,11 +1,11 @@
-import pdb
+
 class Course:
 
     _all_courses = {}
     _courses_archive = {}
 
 
-    def __init__(self, name, code:str, credits: int, professor:str, capacity:int, required_completed_courses: list):
+    def __init__(self, name, code:str, credits: int, professor:str, capacity:int, required_completed_courses: list=None):
         self._name = name
         self._code = code
         self._credits = credits
@@ -28,6 +28,7 @@ class Course:
 
 
     def add_student_to_students_enrolled(self, id):
+        """Accepts student id as str and add it gto the course students list"""
         self._students_enrolled.append(id)
 
 

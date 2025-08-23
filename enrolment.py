@@ -51,11 +51,14 @@ class Enrolment:
     
     def check_required_completed_courses(self):
         """Checks that the courses required to enrol in a new course are in the student's completed courses.
+        Return True if there are no required courses.
         Return True if all required courses have been previously completed.Return False otherwise"""
         
         course = self._course
         student = self._student
         required = course.required_completed_courses
+        if not required:
+            return True
         completed = student.completed_courses
         
         return all(course in completed for course in required)

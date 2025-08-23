@@ -1,5 +1,7 @@
 import re
 
+
+
 def is_password_pattern_valid(password):
     """Compares provided password against the regex pattern"""
     pattern = r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
