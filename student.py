@@ -3,15 +3,13 @@ from grades import Grades
 from course import Course
 from enrolment import Enrolment
 import utils
-import pdb
 class Student(User):
 
-    def __init__(self, name, title, password, current_courses:list=[], completed_courses:list=[]):
+    def __init__(self, name, title, password, current_courses:list=None, completed_courses:list=None):
         super().__init__(name, title, password)
-        self._current_courses = current_courses
-        self._completed_courses = completed_courses
+        self._current_courses = current_courses if current_courses is not None else []
+        self._completed_courses = completed_courses if completed_courses is not None else []
         self._credits_available = 120
-        # pdb.set_trace()
         self._grades = None        
         self._post_init__()
 

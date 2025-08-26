@@ -40,7 +40,10 @@ class Grades:
         grades = self._grades.values()
         count = len(grades)
         addition = sum(grades)
-        self._gpa = addition / count
-        print(f"New GPA is {self._gpa}.")
+        if addition:
+            self._gpa = addition / count
+            print(f"New GPA is {self._gpa}.")
+        else:
+            print('No grades to calculate gpa.')
 
 

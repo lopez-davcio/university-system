@@ -1,4 +1,3 @@
-import pdb
 class Enrolment:
 
     def __init__(self, course: object, student:object):

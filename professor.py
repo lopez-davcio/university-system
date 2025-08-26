@@ -2,15 +2,15 @@ from user import User
 from course import Course
 from grades import Grades
 import utils
-import pdb
+
 
 
 class Professor(User):
 
-    def __init__(self, name, title, password, current_courses=[], completed_courses=[]):
+    def __init__(self, name, title, password, current_courses=None, completed_courses=None):
         super().__init__(name, title, password)
-        self._current_courses = current_courses
-        self._completed_courses = completed_courses
+        self._current_courses = current_courses if current_courses is not None else []
+        self._completed_courses = completed_courses if completed_courses is not None else []
 
 
    
