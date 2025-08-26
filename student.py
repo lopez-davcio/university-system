@@ -22,7 +22,7 @@ class Student(User):
 
 
     def __repr__(self):
-        return f"Name: {self._name}, title: {self._title}, ID: {self._id}, grades: {self._grades}."
+        return f"Name: {self._name}, title: {self._title}, ID: {self._id}"
 
 
 
